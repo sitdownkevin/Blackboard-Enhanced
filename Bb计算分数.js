@@ -3,9 +3,9 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://pibb.scu.edu.cn/webapps/assignment/gradeAssignmentRedirector
 // @grant       none
-// @version     1.1
+// @version     1.2
 // @author      呲呲呲
-// @description 2023/3/20 20:31:10
+// @description 2023/3/21 16:48:10
 // @license     MIT
 // ==/UserScript==
 
@@ -16,7 +16,8 @@
   var fillLocation; // DOM: <input> => 最后填分的<input>标签
   var feedback; // str => iframe内输入的内容
   var results; // array => 正则表达式提取 e.g.: ['-2', '-4']
-  var finalGrade = 100.0;
+  // var finalGrade = 100.0;
+  var finalGrade = parseFloat(document.querySelector("#currentAttempt_pointsPossible").innerHTML.split('/')[1]);
 
   // Bb必须加载很慢，必须延迟3000ms再开始程序
   setTimeout(() => {
@@ -24,6 +25,7 @@
     bodyElement = document.querySelector("#feedbacktext_ifr").contentDocument.documentElement.querySelector("body");
     // 获取<input>: 填分的地方
     fillLocation = document.querySelector("#currentAttempt_grade");
+    fillLocation.value = finalGrade;
     // 欢迎、检查
     console.log(fillLocation);
     console.log("Successfully Initialization!");
@@ -45,8 +47,8 @@
 
 
   function computeGrade() {
-    if (!results) {return 100;}
-    let grade = 100;
+    if (!results) {return parseFloat(document.querySelector("#currentAttempt_pointsPossible").innerHTML.split('/')[1]);}
+    let grade = parseFloat(document.querySelector("#currentAttempt_pointsPossible").innerHTML.split('/')[1]);
     for (let i=0; i<results.length; i++) {
         grade += parseFloat(results[i]);
     }

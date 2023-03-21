@@ -5,10 +5,10 @@ Bb过于难用
 
 ### 安装
 
-1. 安装一个油猴软件
+1. 安装油猴软件
    
-   [暴力猴](https://chrome.google.com/webstore/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag?hl=zh-CN){:target="_blank"}
-   [油猴](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=zh-CN){:target="_blank"}
+   [暴力猴](https://chrome.google.com/webstore/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag?hl=zh-CN) ｜
+   [油猴](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=zh-CN)
 
 2. 点击链接安装脚本
 
@@ -18,7 +18,7 @@ Bb过于难用
 
 ### 使用方法
 
-在“给学习者的反馈”的窗口输入扣分情况。
+在“给学习者的反馈”窗口输入扣分情况。
 
 格式：在“-”后输入扣的分值。脚本会自动识别“-”符号后的扣分数字，并将扣分后的成绩填入Bb“尝试”栏中。
 
@@ -26,10 +26,12 @@ Bb过于难用
 
 ### 历史版本
 
+#### 1.1
+
+增加小数统计
+
 #### 1.0
 
 脚本发布
 
-#### 1.1
 
-增加小数统计

@@ -1,3 +1,3 @@
 # Blackboard-Grade-Counting
 For counting the grade
-![demo](demo.gif)
+<img src="demo.gif" alt="demo" style="zoom: 25%;" />

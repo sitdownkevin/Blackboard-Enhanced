@@ -6,12 +6,13 @@ Bb过于难用
 ### 安装
 
 1. 安装一个油猴软件
-
-   [暴力猴](https://chrome.google.com/webstore/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag?hl=zh-CN){:target="_blank"} (推荐)｜ [油猴](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=zh-CN) 
+   
+   [暴力猴](https://chrome.google.com/webstore/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag?hl=zh-CN){:target="_blank"}
+   [油猴](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=zh-CN){:target="_blank"}
 
 2. 点击链接安装脚本
 
-   [Bb计算分数](https://greasyfork.org/zh-CN/scripts/462240-bb%E8%AE%A1%E7%AE%97%E5%88%86%E6%95%B0){:target="_blank"}
+   [Bb计算分数](https://greasyfork.org/zh-CN/scripts/462240-bb%E8%AE%A1%E7%AE%97%E5%88%86%E6%95%B0)
 
 3. 打开Bb开始使用
 

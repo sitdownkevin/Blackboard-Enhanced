@@ -23,6 +23,9 @@
 <img src="demo.gif" alt="demo" width="640" />
 
 ### 历史版本
+#### 1.3
+修复了tampermonkey下不可用的问题
+
 #### 1.2
 修复了总分一直为100的bug <br>
 增加了初始化分值显示

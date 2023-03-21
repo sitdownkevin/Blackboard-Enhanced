@@ -21,7 +21,7 @@ Bb过于难用
 
 格式：在“-”后输入扣的分值。脚本会自动识别“-”符号后的扣分数字，并将扣分后的成绩填入Bb“尝试”栏中。
 
-<img src="demo.gif" alt="demo" width="320" />
+<img src="demo.gif" alt="demo" width="640" />
 
 ### 历史版本
 

@@ -7,7 +7,7 @@ Bb过于难用
 
 1. 安装一个油猴软件
 
-   [暴力猴](https://chrome.google.com/webstore/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag?hl=zh-CN){:target="_blank"} (推荐)｜ [油猴](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=zh-CN){:target="_blank"}
+   [暴力猴](https://chrome.google.com/webstore/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag?hl=zh-CN){:target="_blank"} (推荐)｜ [油猴](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=zh-CN) 
 
 2. 点击链接安装脚本
 

@@ -1,4 +1,4 @@
-# Blackboard 改作业时的扣分统计
+# Bb 作业批改增强 | Bb Assignment Marking Enhanced
 
 
 ### 安装
@@ -27,6 +27,11 @@
 <img src="demo.gif" alt="demo" width="640" />
 
 ### 历史版本
+#### 1.5
+更名为“Bb 作业批改增强 | Bb Assignment Marking Enhanced”<br>
+重构了“扣分统计”部分<br>
+新增了“备忘录”功能
+
 #### 1.4
 修复了查看已打分作业时成绩显示错误的问题 <br>
 优化了性能

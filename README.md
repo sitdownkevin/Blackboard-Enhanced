@@ -1,4 +1,4 @@
-# Bb 作业批改增强 | Bb Assignment Marking Enhanced
+# Bb 增强 | Blackboard Enhanced
 <ul>
   <li><a href="#p1">安装</a></li>
   <li><a href="#p2">功能介绍</a></li>

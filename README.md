@@ -16,7 +16,11 @@
    <br>
    **Edge**：
    <a href="https://microsoftedge.microsoft.com/addons/detail/%E6%9A%B4%E5%8A%9B%E7%8C%B4/eeagobfjdenkkddmbclomhiblgggliao?hl=zh-CN" target="_blank">暴力猴</a>（推荐）｜
-   <a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd" target="_blank">油猴</a>
+   <a href="https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd" target="_blank">油猴</a><br>
+   **Firefox**：
+   <a href="https://addons.mozilla.org/en-US/firefox/addon/violentmonkey/" target="_blank">暴力猴</a>（推荐）｜
+   <a href="https://addons.mozilla.org/en-US/firefox/addon/tampermonkey/?utm_source=addons.mozilla.org&utm_medium=referral&utm_content=search" target="_blank">油猴</a>
+   <br>
 
 
 2. 安装脚本：[点击安装](https://greasyfork.org/zh-CN/scripts/462240-bb%E8%AE%A1%E7%AE%97%E5%88%86%E6%95%B0)

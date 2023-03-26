@@ -39,6 +39,9 @@
 
 
 ### 历史版本 <a name="p3"></a>
+#### 1.6
+新增了Bb首页Deadline海报
+
 #### 1.5
 更名为“Bb 作业批改增强 | Bb Assignment Marking Enhanced”<br>
 重构了“扣分统计”部分<br>

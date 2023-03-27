@@ -3,8 +3,6 @@
 // @namespace   Violentmonkey Scripts
 // @match       https://pibb.scu.edu.cn/webapps/portal/*
 // @match       https://pibb.scu.edu.cn/webapps/assignment/gradeAssignmentRedirector*
-// @exclude     https://pibb.scu.edu.cn/webapps/bb-social-learning-BBLEARN/*
-// @exclude     https://pibb.scu.edu.cn/webapps/assignment*
 // @grant       none
 // @grant       GM_xmlhttpRequest
 // @grant       GM_setValue
@@ -12,9 +10,9 @@
 // @grant       GM_registerMenuCommand
 // @grant       GM_unregisterMenuCommand
 // @grant       GM_notification
-// @version     1.8
+// @version     1.9
 // @author      sitdownkevin
-// @description 2023/3/26 16:07:00
+// @description 2023/3/27 16:11:00
 // @license     MIT
 // ==/UserScript==
 
@@ -22,16 +20,206 @@
 (function() {
     'use strict';
 
+    async function main () {
+        await console.log('hello');
+        if (window.location.href.startsWith('https://pibb.scu.edu.cn/webapps/assignment/gradeAssignmentRedirector')) {
+            assignmentEnhanced();
+        }
 
-    // 作业批改增强
-    if (window.location.href.startsWith('https://pibb.scu.edu.cn/webapps/assignment/gradeAssignmentRedirector')) {
+        await calendarInfoCatch();
+        // setTimeout(() => {
+        //     console.log('P');
+        // }, 1000);
+        await courseInfoCatch();
+        if (window.location.href.startsWith('https://pibb.scu.edu.cn/webapps/portal')) {
+            deadlineEnhanced();
+        }
+    };
+    main();
+
+
+    // INITIAL 1: Preparation for Spider
+    const cookie = document.cookie;
+    const headers = {
+        "Cookie": cookie,
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
+        "Referer": "https://pibb.scu.edu.cn/webapps/calendar/viewMyBb?globalNavigation=false",
+        "Accept": "*/*",
+        "Sec-Fetch-Site": "same-origin"
+    };
+
+
+    // INITIAL 2: Catch Course ID and Add them into Database
+    var courses_info_post;
+    var course_database = {};
+
+    async function courseInfoCatch() {
+        try {
+            courses_info_post = await get_course_id();
+            store_course_id(courses_info_post);
+            console.log("Success: Catch Course ID and Add them into Database");
+        }
+        catch {
+            console.log("Error: Catch Course ID and Add them into Database");
+        }
+    };
+        // 通过POST获取课程信息
+    function get_course_id() {
+        return new Promise((resolve, reject) => {
+            const url = 'https://pibb.scu.edu.cn/webapps/portal/execute/tabs/tabAction?action=refreshAjaxModule&modId=_2_1&tabId=_1_1&tab_tab_group_id=_1_1';
+            GM_xmlhttpRequest({
+                method: 'POST',
+                url: url,
+                headers: headers,
+                onload: (res) => {
+                    const courses_info_post = res.responseText;
+                    resolve(courses_info_post);
+                },
+                onerror: (err) => {
+                    reject(err);
+                }
+            });
+        });
+    };
+        // 把数据存储到course_database中
+    function store_course_id(_courses_info_post) {
+        const pattern = /<li>[\s\S]*?<\/li>/g;
+        const regArr = _courses_info_post.match(pattern);
+        for (let i=0; i<regArr.length; i++) {
+            // debug: console.log(regArr[i]);
+            const pattern = {
+                'course_name': /<a.*?>(.*?)<\/a>/,     // 课程名字
+                'course_id': /id=(_\d+_\d+)/i,         // 课程ID
+                'course_href': /href=['"](.*?)['"]/    // 课程主页链接
+            };
+            const course_name = regArr[i].match(pattern['course_name'])[1];
+            const course_id = regArr[i].match(pattern['course_id'])[1];
+            const course_href = regArr[i].match(pattern['course_href'])[1];
+            course_database[course_name] = {
+                'id': course_id,
+                'href': course_href
+            }
+            // debug: console.log(course_name, course_id, course_href);
+        }
+    };
+
+
+    // INITIAL 3: Catch Calendar Info
+    var oringinal_todo_items, todo_items;
+
+    async function calendarInfoCatch() {
+        try {
+            oringinal_todo_items = await get_calendar();
+            todo_items = extractItems(oringinal_todo_items);
+            todo_items = setColor(todo_items);
+            console.log("Success: Catch Calendar Info");
+        }
+        catch {
+            console.log("Error: Catch Calendar Info");
+        }
+    };
+
+    function get_calendar() {
+        return new Promise((resolve, reject) => {
+            const url = 'https://pibb.scu.edu.cn/webapps/calendar/calendarData/selectedCalendarEvents';
+            var start_date = new Date();
+            var end_date = new Date();
+            end_date.setDate(end_date.getDate() + 28);
+            const params = "?start=" + start_date.getTime() + "&end=" + end_date.getTime() + "&course_id=&mode=personal";
+
+            GM_xmlhttpRequest({
+                method: "GET",
+                url: url + params,
+                headers: headers,
+                onload: (res) => {
+                    resolve(JSON.parse(JSON.stringify(JSON.parse(res.responseText), null, 2)));
+                    // debug:
+                    // console.log(oringinal_todo_items);
+                    // todo_items = extractItems(oringinal_todo_items);
+                    // createContainer();
+                },
+                onerror: (err) => {
+                    reject(err);
+                }
+            });
+        });
+    };
+
+    // 处理json文件: origin_todo_items => todo_items
+    function extractItems(_oringinal_todo_items) {
+        var _todo_items = [];
+        for (let i=0; i<_oringinal_todo_items.length; i++) {
+          _todo_items.push({
+            "course": _oringinal_todo_items[i]['calendarName'],
+            "todoItem": _oringinal_todo_items[i]['title'],
+            "deadline": _oringinal_todo_items[i]['end']
+          });
+        }
+        // 按照时间顺序排序
+        _todo_items.sort((a, b) => {
+            return Date.parse(a.deadline) - Date.parse(b.deadline);
+        });
+        return _todo_items;
+    };
+
+    // 添加渐变颜色
+    function setColor(_todo_items) {
+        // 渐变准备 1
+        const generateGradientColors = (color1, color2, steps) => {
+            // Convert color1 to RGB values
+            const rgb1 = hexToRgb(color1);
+
+            // Convert color2 to RGB values
+            const rgb2 = hexToRgb(color2);
+
+            // Generate gradient colors
+            const colors = [];
+            for (let i = 0; i <= steps; i++) {
+                const r = interpolate(rgb1.r, rgb2.r, i, steps);
+                const g = interpolate(rgb1.g, rgb2.g, i, steps);
+                const b = interpolate(rgb1.b, rgb2.b, i, steps);
+                const hex = rgbToHex(r, g, b);
+                colors.push(hex);
+            }
+            return colors;
+        };
+        // 渐变准备 2: Convert a hexadecimal color code to an RGB object
+        const hexToRgb = (hex) => {
+            const r = parseInt(hex.slice(1, 3), 16);
+            const g = parseInt(hex.slice(3, 5), 16);
+            const b = parseInt(hex.slice(5, 7), 16);
+            return { r, g, b };
+        };
+        // 渐变准备 3: Convert an RGB object to a hexadecimal color code
+        const rgbToHex = (r, g, b) => {
+            const hex = ((r << 16) | (g << 8) | b).toString(16);
+            return "#" + hex.padStart(6, "0");
+        }
+        // 渐变准备 4: Interpolate a value between two numbers
+        const interpolate = (start, end, step, totalSteps) => {
+            return start + ((end - start) * step) / totalSteps;
+        }
+        const colorChoices = [
+            ['#ff4e4f', '#ff9d81'],
+            ['#032e71', '#b8e9fc'],
+            ['#ff2121', '#d14631']
+        ];
+        const colorArr = generateGradientColors(colorChoices[1][0], colorChoices[1][1], _todo_items.length);
+        for (let i=0; i<_todo_items.length; i++) {
+            _todo_items[i]['color'] = colorArr[i];
+        }
+        return _todo_items;
+    };
+
+
+    // MAIN 1: 作业批改增强
+    function assignmentEnhanced() {
         setTimeout(() => {
             console.log('进入作业批改模式');
             pageOptimal();
             scoreCount();
             addMemo();
         }, 3000);
-
 
         // 优化页面布局 => 自动打开评价标签 & 删除部分元素
         function pageOptimal() {
@@ -165,133 +353,21 @@
         };
     };
 
-    // DDL催命鬼
-    if (window.location.href.startsWith('https://pibb.scu.edu.cn/webapps')) {
-        var oringinal_todo_items, todo_items;
 
-        setTimeout(() => {
-
-            const cookie = document.cookie;
-
-            var start_date = new Date();
-            var end_date = new Date();
-            end_date.setDate(end_date.getDate() + 28);
-            const url = "https://pibb.scu.edu.cn/webapps/calendar/calendarData/selectedCalendarEvents";
-
-            const params = "?start=" + start_date.getTime() + "&end=" + end_date.getTime() + "&course_id=&mode=personal";
-
-
-
-            GM_xmlhttpRequest({
-              method: "GET",
-              url: url + params,
-              headers: {
-                "Cookie": cookie,
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36",
-                "Referer": "https://pibb.scu.edu.cn/webapps/calendar/viewMyBb?globalNavigation=false",
-                "Accept": "*/*",
-                "Sec-Fetch-Site": "same-origin"
-              },
-              onload: (res) => {
-                oringinal_todo_items = JSON.parse(JSON.stringify(JSON.parse(res.responseText), null, 2));
-                // debug:
-                console.log(oringinal_todo_items);
-                todo_items = extractItems(oringinal_todo_items);
-                createContainer();
-              }
-
-            });
-
-
-          }, 300);
-
-
-        // 处理json文件: origin_todo_items => todo_items
-        function extractItems(oringinal_todo_items) {
-            var todo_items = [];
-            for (let i=0; i<oringinal_todo_items.length; i++) {
-              todo_items.push({
-                "course": oringinal_todo_items[i]['calendarName'],
-                "todoItem": oringinal_todo_items[i]['title'],
-                "deadline": oringinal_todo_items[i]['end']
-              });
-            }
-            // 按照时间顺序排序
-            todo_items.sort((a, b) => {
-                return Date.parse(a.deadline) - Date.parse(b.deadline);
-            });
-            // 添加渐变颜色
-            const colorChoices = [
-                ['#ff4e4f', '#ff9d81'],
-                ['#032e71', '#b8e9fc'],
-                ['#ff2121', '#d14631']
-            ]
-            const colorArr = generateGradientColors(colorChoices[1][0], colorChoices[1][1], todo_items.length);
-            for (let i=0; i<todo_items.length; i++) {
-                todo_items[i]['color'] = colorArr[i];
-            }
-
-            return todo_items;
-        };
-
-        // 渐变准备 1
-        function generateGradientColors(color1, color2, steps) {
-            // Convert color1 to RGB values
-            const rgb1 = hexToRgb(color1);
-
-            // Convert color2 to RGB values
-            const rgb2 = hexToRgb(color2);
-
-            // Generate gradient colors
-            const colors = [];
-            for (let i = 0; i <= steps; i++) {
-            const r = interpolate(rgb1.r, rgb2.r, i, steps);
-            const g = interpolate(rgb1.g, rgb2.g, i, steps);
-            const b = interpolate(rgb1.b, rgb2.b, i, steps);
-            const hex = rgbToHex(r, g, b);
-            colors.push(hex);
-            }
-
-            return colors;
-        }
-        // 渐变准备 2
-        // Convert a hexadecimal color code to an RGB object
-        function hexToRgb(hex) {
-            const r = parseInt(hex.slice(1, 3), 16);
-            const g = parseInt(hex.slice(3, 5), 16);
-            const b = parseInt(hex.slice(5, 7), 16);
-            return { r, g, b };
-        }
-        // 渐变准备 3
-        // Convert an RGB object to a hexadecimal color code
-        function rgbToHex(r, g, b) {
-            const hex = ((r << 16) | (g << 8) | b).toString(16);
-            return "#" + hex.padStart(6, "0");
-        }
-        // 渐变准备 4
-        // Interpolate a value between two numbers
-        function interpolate(start, end, step, totalSteps) {
-            return start + ((end - start) * step) / totalSteps;
-        }
-
-
+    // MAIN 2: DDL催命鬼
+    async function deadlineEnhanced() {
+        await createContainer();
 
         // 创建容器
         function createContainer() {
             var container = document.createElement('div');
 
-            if (!GM_getValue('container_style')){
-                GM_setValue('container_style', {
-                    'container_top': '100px',
-                    'container_left': '100px'
-                });
-            }
+            GM_getValue('container_style', {
+                'container_top': '100px',
+                'container_left': '100px'
+            });
 
-            // 定义菜单
-            console.log('hello');
-
-
-            // 初始默认符号为 ☐
+            // 菜单: 初始默认符号为 ☐
             let checked = GM_getValue('checked', true);
             let symbol = checked ? '☑' : '☐';
             GM_registerMenuCommand(`${symbol} DDL Poster`, toggleMenu);
@@ -326,7 +402,6 @@
             container.style.cssText = container_style;
             document.body.appendChild(container);
 
-
             // 创建滚动列表
             const list = document.createElement('div');
             const list_style = `
@@ -340,12 +415,13 @@
                     background: transparent;
                 }
             `;
-            // list.setAttribute('style', list_style);
             list.style.cssText = list_style;
             container.appendChild(list);
 
-            // 创建行
+            // 创建每个待办事项 (item)
             for (let i=0; i<todo_items.length; i++) {
+                const name = todo_items[i]['course'];
+
                 const item = document.createElement('div');
                 const item_style = `
                     width: 95%;
@@ -358,71 +434,78 @@
                     display: flex;
                     flex-direction: column;
                     align-items: left;
-                    cursor: pointer;
+                    cursor: move;
                 `;
                 item.style.cssText = item_style;
 
-
                 var assignment = document.createElement('div');
-                assignment.style.marginTop = "10px";
+                const assignment_style = `
+                    margin-top: 10px;
+                    margin-left: 12px;
+                    font-size: 17px;
+                    font-weight: bold;
+                    color: #f5f5f6;
+                `;
                 assignment.innerText = `${todo_items[i]['todoItem']}`;
-                assignment.style.marginLeft = "12px";
-                assignment.style.fontSize = "17px";
-                assignment.style.fontWeight = "bold";
-                assignment.style.color = "#f5f5f7";
+                assignment.style.cssText = assignment_style;
                 item.appendChild(assignment);
 
-                var course_name = document.createElement('div');
-                course_name.style.marginTop = "10px";
+                var course_name = document.createElement('a');
+                const course_name_style = `
+                    display: inline;
+                    // text-decoration: underline;
+                    margin-top: 10px;
+                    margin-left: 12px;
+                    font-weight: bold;
+                    font-size: 10px;
+                    color: #e0e0ef;
+                    cursor: pointer;
+                `;
+                course_name.style.cssText = course_name_style;
                 course_name.innerText = `${todo_items[i]['course']}`;
-                course_name.style.marginLeft = "12px";
-                course_name.style.fontWeight = "bold";
-                course_name.style.fontSize = "10px";
-                course_name.style.color = "#e0e0ce";
+                course_name.href = course_database[name]['href'];
                 item.appendChild(course_name);
 
 
                 var countDown = document.createElement('div');
-                countDown.style.marginLeft = "12px";
-                countDown.style.fontWeight = "bold";
-                countDown.style.fontSize = "22px";
-                countDown.style.marginBottom = "10px";
-                countDown.style.color = "#e0e0ce";
+                const countDown_style = `
+                    margin-left: 12px;
+                    margin-bottom: 10px;
+                    font-weight: bold;
+                    font-size: 22px;
+                    color: #e0e0ce;
+
+                `;
+                countDown.style.cssText = countDown_style;
                 countDown.innerHTML = formatDuration(Date.parse(todo_items[i]['deadline']) - (new Date()).getTime());
                 flashTime(countDown, i);
 
                 moveContainer(item, container);
                 item.appendChild(countDown);
                 list.appendChild(item);
-
             }
 
         };
 
 
-
-
         // 移动容器
-        function moveContainer(element, container) {
-            console.log('Add S');
-
-            element.addEventListener('mousedown', (e) => {
-                var xOffset = e.clientX - container.offsetLeft;
-                var yOffset = e.clientY - container.offsetTop;
+        function moveContainer(_element, _container) {
+            _element.addEventListener('mousedown', (e) => {
+                var xOffset = e.clientX - _container.offsetLeft;
+                var yOffset = e.clientY - _container.offsetTop;
                 // debug: console.log(xOffset, yOffset);
 
                 var handleMouseMove = (e) => {
-                    container.style.left = (e.clientX - xOffset) + 'px';
-                    container.style.top = (e.clientY - yOffset) + 'px';
-
+                    _container.style.left = (e.clientX - xOffset) + 'px';
+                    _container.style.top = (e.clientY - yOffset) + 'px';
                 }
 
                 document.addEventListener('mousemove', handleMouseMove);
 
                 document.addEventListener('mouseup', function() {
                     GM_setValue('container_style', {
-                        'container_top': container.style.top,
-                        'container_left': container.style.left
+                        'container_top': _container.style.top,
+                        'container_left': _container.style.left
                     });
                     document.removeEventListener('mousemove', handleMouseMove);
                 });
@@ -430,10 +513,10 @@
         }
 
         // 倒计时
-        function flashTime(countDown, i){
+        function flashTime(_countDown, i) {
             setInterval(() => {
               var now = new Date();
-              countDown.innerHTML = formatDuration(Date.parse(todo_items[i]['deadline']) - now.getTime());
+              _countDown.innerHTML = formatDuration(Date.parse(todo_items[i]['deadline']) - now.getTime());
             }, 1000);
         }
 
@@ -451,21 +534,21 @@
 
             let result = '';
             if (days > 0) {
-              result += days + '天';
+                result += days + '天';
             }
             if (hours > 0) {
-              result += hours + '小时';
+                result += hours + '小时';
             }
             if (minutes > 0) {
-              result += minutes + '分钟';
+                result += minutes + '分钟';
             }
             if (seconds > 0) {
-              result += seconds + '秒';
+                result += seconds + '秒';
             }
             return result;
-        }
+        };
 
-    }
+    };
 
 
 })();

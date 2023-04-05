@@ -10,9 +10,9 @@
 // @grant       GM_registerMenuCommand
 // @grant       GM_unregisterMenuCommand
 // @grant       GM_notification
-// @version     1.9
+// @version     1.9.3
 // @author      sitdownkevin
-// @description 2023/3/27 16:11:00
+// @description 2023/4/3 10:27:00
 // @license     MIT
 // ==/UserScript==
 
@@ -26,12 +26,10 @@
             assignmentEnhanced();
         }
 
-        await calendarInfoCatch();
-        // setTimeout(() => {
-        //     console.log('P');
-        // }, 1000);
-        await courseInfoCatch();
+
         if (window.location.href.startsWith('https://pibb.scu.edu.cn/webapps/portal')) {
+            await calendarInfoCatch();
+            await courseInfoCatch();
             deadlineEnhanced();
         }
     };
@@ -213,9 +211,10 @@
 
 
     // MAIN 1: 作业批改增强
-    function assignmentEnhanced() {
-        setTimeout(() => {
-            console.log('进入作业批改模式');
+    async function assignmentEnhanced() {
+        console.log('进入作业批改模式');
+
+        await setTimeout(() => {
             pageOptimal();
             scoreCount();
             addMemo();
@@ -285,70 +284,125 @@
 
         // 添加备忘录
         function addMemo() {
-            var element_target = document.querySelector("#currentAttempt_submission");
-            var memo_container = document.createElement("div");
-
-            memo_container.style.width = "100%";
-            memo_container.style.height = "400px";
-            memo_container.style.backgroundColor = "#DFF0F4";
-            element_target.parentNode.insertBefore(memo_container, element_target);
-
-
-            var memo_content = document.createElement("div");
-            var memo_content_input = document.createElement("div");
-            memo_content.style.height = '320px';
-            memo_content.style.display = 'flex';
-            memo_content.style.justifyContent = 'center';
-            memo_content.style.alignItems = 'center';
+            const element_target = document.querySelector("#currentAttempt_submission");
+            const addedContainer = document.createElement("div");
+            addedContainer.style.cssText = `
+                width: 100%;
+                height: auto;
+                background-color: #dff0f4;
+            `;
+            element_target.parentNode.style.height = 'auto';
+            element_target.parentNode.insertBefore(addedContainer, element_target);
 
 
-            memo_content_input.contentEditable = true;
-            if (!GM_getValue("memo_content")) {
-                GM_setValue("memo_content", '这是一个备忘录');
-            }
-            memo_content_input.innerHTML = GM_getValue("memo_content");
+            const memoContainer = document.createElement("div");
+            memoContainer.style.cssText = `
+                // background-color: #ccc;
+                width: 100%;
+                height: 288px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            `;
+            addedContainer.append(memoContainer);
 
-            memo_content_input.style.height = '90%';
-            memo_content_input.style.width = '95%';
-            memo_content_input.style.backgroundColor = "#FFFFFF";
-            memo_content_input.style.border = '1px solid #ccc';
-            memo_content_input.style.padding = '2px';
+            const memoList = document.createElement("div");
+            memoList.style.cssText = `
+                border: 1px solid #ccc;
+                margin-top: 20px;
+                width: calc(100% - 32px);
+                height: 100%;
+                overflow-y: scroll;
+                pointer-events: auto;
+            `;
+            memoContainer.append(memoList);
 
-            // 监听 “备忘录” 输入
-            memo_content_input.addEventListener('input', () => {
-            // debug: console.log(memo_content_input.innerHTML);
-            GM_setValue("memo_content", memo_content_input.innerHTML);
+            const memoInput = document.createElement("div");
+            memoInput.style.cssText = `
+                height: 300%;
+                width: calc(100% - 10px);
+                background-color: #ffffff;
+                padding: 5px;
+                inline-height: 1.2;
+                outline: none;
+            `;
+            memoList.append(memoInput);
+
+            memoInput.contentEditable = true;
+            memoInput.addEventListener('input', () => {
+                GM_setValue('memo_content', memoInput.innerHTML);
+            });
+            memoInput.innerHTML = GM_getValue("memo_content", "Memo Here");
+
+
+
+            const clearContainer = document.createElement("div");
+            clearContainer.style.cssText = `
+                margin-top: 10px;
+                width: 100%;
+                height: 47.6px;
+                position: relative;
+            `;
+
+
+            const bakBtn = document.createElement("div");
+            bakBtn.style.cssText = `
+                background-color: #dadada;
+                cursor: pointer;
+                border: 0 solid;
+                width: 46px;
+                height: 27.6px;
+                position: absolute;
+                right: 70px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            `;
+            clearContainer.appendChild(bakBtn);
+            const bakText = document.createElement("div");
+            bakText.style.cssText = `color: #000000`;
+            bakText.textContent = "恢复";
+            bakBtn.appendChild(bakText);
+            bakBtn.addEventListener("click", () => {
+                if (!GM_getValue("memo_bak")) {
+                    alert("No Memo Bak!");
+                }
+                else {
+                    GM_setValue("memo_content", GM_getValue("memo_bak"));
+                    memoInput.innerHTML = GM_getValue("memo_content");
+                }
             });
 
 
-            memo_content.append(memo_content_input);
-            memo_container.append(memo_content);
+            const clearBtn = document.createElement("div");
+            clearBtn.style.cssText = `
+                background-color: #333333;
+                cursor: pointer;
+                border: 0 solid;
+                width: 46px;
+                height: 27.6px;
+                position: absolute;
+                right: 16px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            `;
 
-            var memo_clear = document.createElement("div");
-            var memo_clear_btn = document.createElement("button");
-            memo_clear.style.height = '30px';
-            memo_clear.style.position = "relative";
-            memo_clear_btn.style.backgroundColor = '#DADADA';
-            memo_clear_btn.style.border = '0 solid';
-            memo_clear_btn.style.width = '70px';
-            memo_clear_btn.style.height = '30px';
-            memo_clear_btn.style.position = "absolute";
-            memo_clear_btn.style.top = "50%";
-            memo_clear_btn.style.left = "50%";
-            memo_clear_btn.style.transform = "translate(-50%, -50%)";
+            const clearText = document.createElement("div");
+            clearText.style.cssText = `color: #ffffff`;
+            clearText.textContent = "清空";
+            clearBtn.appendChild(clearText);
 
-
-            memo_clear_btn.textContent = "清除";
-
-            // 监听 “清除” 按钮
-            memo_clear_btn.addEventListener("click", () => {
+            // 监听 “清空” 按钮
+            clearBtn.addEventListener("click", () => {
                 console.log("Clear Button Clicked");
-                GM_setValue("memo_content", '这是一个备忘录');
-                memo_content_input.innerHTML = GM_getValue("memo_content");
+                GM_setValue("memo_bak", memoInput.innerHTML);
+                GM_setValue("memo_content", 'Memo Here');
+                memoInput.innerHTML = GM_getValue("memo_content");
             });
 
-            memo_clear.append(memo_clear_btn);
-            memo_container.append(memo_clear);
+            clearContainer.appendChild(clearBtn);
+            addedContainer.appendChild(clearContainer);
 
         };
     };
@@ -362,10 +416,10 @@
         function createContainer() {
             var container = document.createElement('div');
 
-            GM_getValue('container_style', {
-                'container_top': '100px',
-                'container_left': '100px'
-            });
+            const container_location = GM_getValue('container_location', {
+                                        'container_top': '100px',
+                                        'container_left': '100px'
+                                    });
 
             // 菜单: 初始默认符号为 ☐
             let checked = GM_getValue('checked', true);
@@ -390,8 +444,8 @@
             const container_style = `
                 position: fixed;
                 z-index: 10000;
-                top: ${GM_getValue('container_style')['container_top']};
-                left: ${GM_getValue('container_style')['container_left']};
+                top: ${container_location['container_top']};
+                left: ${container_location['container_left']};
                 width: 290px;
                 height: 300px;
                 opacity: 0.8;
@@ -503,7 +557,7 @@
                 document.addEventListener('mousemove', handleMouseMove);
 
                 document.addEventListener('mouseup', function() {
-                    GM_setValue('container_style', {
+                    GM_setValue('container_location', {
                         'container_top': _container.style.top,
                         'container_left': _container.style.left
                     });

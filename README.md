@@ -1,5 +1,5 @@
 # Bb 增强 | Blackboard Enhanced
-四川大学匹兹堡学院Bb系统增强插件
+ 四川大学匹兹堡学院Blackboard 增强插件
 
 ## 目录
 <ul>

@@ -21,12 +21,17 @@
 
 
 
+
 <div align="right">
 
 ## 安装 
 
 </div>
 
+
+四川大学匹兹堡学院**Blackboard**增强插件
+
+## 安装 <a name="p1"></a>
 
 ### 1. 安装油猴软件
 <div align="center">

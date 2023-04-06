@@ -1,18 +1,24 @@
-# Bb 增强 | Blackboard Enhanced
+<div align="center">
+
+<h1 align="center">Bb 增强 | Blackboard Enhanced</h1>
+
+
 
 ![GitHub](https://img.shields.io/github/license/sitdownkevin/Blackboard-Enhanced)
 ![GitHub repo size](https://img.shields.io/github/repo-size/sitdownkevin/Blackboard-Enhanced)
 
- 四川大学匹兹堡学院**Blackboard**增强插件
-## 目录
+</div>
 
-* [安装](#安装)
-* [功能介绍](#功能介绍)
-  * [Deadline海报](#ddl海报)
-  * [作业批改-扣分统计](#作业批改---扣分统计)
-  * [作业批改-备忘录](#作业批改---备忘录布局优化)
-* [历史版本](#历史版本)
 
+<div align="center">
+<h3>
+
+[安装](#安装) | [功能介绍](#功能介绍) | [历史版本](#历史版本)
+
+</h3>
+</div>
+
+四川大学匹兹堡学院**Blackboard**增强插件
 ****
 ## 安装 <a name="p1"></a>
 

@@ -62,7 +62,7 @@ Bb首页显示日程悬浮海报与倒计时，点击课程名称直接跳转至
 
 <div align="center">
 
- <img src="demo/deadline_poster.gif" alt="deadline_poster">
+ <img src="demo/deadline_poster.gif" style="height:200px" alt="deadline_poster">
 
 </div>
 
@@ -71,7 +71,7 @@ Bb首页显示日程悬浮海报与倒计时，点击课程名称直接跳转至
 
 <div align="center">
 
-<img src="demo/assignment_autocount.gif"    alt="assignment_autocount">
+<img src="demo/assignment_autocount.gif"    style="height:200px" alt="assignment_autocount">
  
 </div>
  
@@ -80,7 +80,7 @@ Bb首页显示日程悬浮海报与倒计时，点击课程名称直接跳转至
 
 <div align="center">
 
-<img src="demo/assignment_memo.png"    alt="assignment_memo">
+<img src="demo/assignment_memo.png"    style="height:200px" alt="assignment_memo">
 
 </div>
 

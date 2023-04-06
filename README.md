@@ -1,8 +1,8 @@
 <div align="center">
-
+<img src="demo/Bb.png" style="width:150px;"></img>
 <h1 align="center">Bb 增强 | Blackboard Enhanced</h1>
 
-
+<span>四川大学匹兹堡学院**Blackboard**增强插件</span>
 
 ![GitHub](https://img.shields.io/github/license/sitdownkevin/Blackboard-Enhanced)
 ![GitHub repo size](https://img.shields.io/github/repo-size/sitdownkevin/Blackboard-Enhanced)
@@ -15,12 +15,18 @@
 
 [安装](#安装) | [功能介绍](#功能介绍) | [历史版本](#历史版本)
 
+
 </h3>
 </div>
 
-四川大学匹兹堡学院**Blackboard**增强插件
-****
-## 安装 <a name="p1"></a>
+
+
+<div align="right">
+
+## 安装 
+
+</div>
+
 
 ### 1. 安装油猴软件
 <div align="center">
@@ -39,8 +45,13 @@
 
 ### 3. 打开**Blackboard**开始使用
 
-****
-## 功能介绍 <a name="p2"></a>
+
+<div align="right">
+
+## 功能介绍
+
+</div>
+
 ### DDL海报
 Bb首页显示日程悬浮海报与倒计时，点击课程名称直接跳转至对应课程。
 
@@ -68,8 +79,13 @@ Bb首页显示日程悬浮海报与倒计时，点击课程名称直接跳转至
 
 </div>
 
-****
-## 历史版本 <a name="p3"></a>
+<div align="right">
+
+## 历史版本
+
+</div>
+
+
 ### 1.9.3
 新增了备忘录还原功能
 

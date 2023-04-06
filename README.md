@@ -36,7 +36,7 @@
 ### 1. 安装油猴软件
 <div align="center">
 
-  |浏览器|暴力猴（推荐）|油猴|
+  |浏览器|暴力猴|油猴|
   |:---:|:----:|:-----:|
   |Chrome| [安装](https://chrome.google.com/webstore/detail/violentmonkey/jinjaccalgkegednnccohejagnlnfdag?hl=zh-CN)|[安装](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=zh-CN)|
   |Edge|[安装](https://microsoftedge.microsoft.com/addons/detail/%E6%9A%B4%E5%8A%9B%E7%8C%B4/eeagobfjdenkkddmbclomhiblgggliao?hl=zh-CN)|[安装](https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd)|

@@ -20,21 +20,14 @@
 </div>
 
 
-
-
 <div align="right">
 
 ## 安装 
 
 </div>
 
-
-四川大学匹兹堡学院**Blackboard**增强插件
-
-## 安装 <a name="p1"></a>
-
 ### 1. 安装油猴软件
-<div align="center">
+<div align="left">
 
   |浏览器|暴力猴|油猴|
   |:---:|:----:|:-----:|
@@ -44,9 +37,8 @@
 
  </div>
 
-
-
-### 2. 安装脚本：跳转 [**GreasyFork**](https://greasyfork.org/zh-CN/scripts/462240-bb%E8%AE%A1%E7%AE%97%E5%88%86%E6%95%B0) 安装
+### 2. 安装脚本：
+前往 [**GreasyFork**](https://greasyfork.org/zh-CN/scripts/462240-bb%E8%AE%A1%E7%AE%97%E5%88%86%E6%95%B0) 安装
 
 ### 3. 打开**Blackboard**开始使用
 

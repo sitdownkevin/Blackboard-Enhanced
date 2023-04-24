@@ -2,7 +2,7 @@
 <img src="demo/Bb.png" style="width:150px;"></img>
 <h1 align="center">Bb 增强 | Blackboard Enhanced</h1>
 
-<span>四川大学匹兹堡学院**Blackboard**增强插件</span>
+<span>四川大学匹兹堡学院Blackboard增强插件</span>
 
 ![GitHub](https://img.shields.io/github/license/sitdownkevin/Blackboard-Enhanced)
 ![GitHub repo size](https://img.shields.io/github/repo-size/sitdownkevin/Blackboard-Enhanced)
@@ -38,7 +38,7 @@
  </div>
 
 ### 2. 安装脚本：
-前往 [**GreasyFork**](https://greasyfork.org/zh-CN/scripts/462240-bb%E8%AE%A1%E7%AE%97%E5%88%86%E6%95%B0) 安装
+前往 [**GreasyFork (Bb 增强 | Blackboard Enhanced)**](https://greasyfork.org/zh-CN/scripts/462240-bb%E8%AE%A1%E7%AE%97%E5%88%86%E6%95%B0) 安装油猴脚本
 
 ### 3. 打开**Blackboard**开始使用
 

@@ -1,7 +1,8 @@
 {
   "name": "blackboard-enhancing",
   "private": true,
-  "version": "dev-1.0.0",
+  "version": "2.0.0",
+  "author": "sitdownkevin",
   "type": "module",
   "scripts": {
     "dev": "vite",

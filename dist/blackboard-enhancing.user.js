@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name       blackboard-enhancing
 // @namespace  npm/vite-plugin-monkey
-// @version    dev-1.0.0
-// @author     monkey
+// @version    2.0.0
+// @author     sitdownkevin
 // @icon       https://vitejs.dev/logo.svg
 // @match      https://pibb.scu.edu.cn/*
 // @require    https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js
@@ -56,7 +56,6 @@
       var todo_items = await extractItems(orig_todo_items);
       todo_items = await setColor(todo_items);
       console.log("fetchCalendar.js Success");
-      console.log(todo_items);
       return todo_items;
     } catch (err) {
       console.log("fetchCalendar.js Error: ", err);
@@ -72,7 +71,6 @@
     return fetch(url + params, {
       method: "GET"
     }).then((res) => res.json()).then((data) => {
-      console.log(data);
       return data;
     }).catch(console.log);
   }

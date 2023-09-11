@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       BlackboardBb 增强 | Blackboard Enhanced
 // @namespace  npm/vite-plugin-monkey
-// @version    2.0.0
+// @version    2.0.2
 // @author     sitdownkevin
 // @license    MIT
 // @icon       ./src/assets/favicon.svg

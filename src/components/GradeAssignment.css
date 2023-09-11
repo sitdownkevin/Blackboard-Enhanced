@@ -33,7 +33,7 @@
       height: 47.6px;
       position: relative;
 
-      .btn-bak {
+      .btn-save {
         background-color: #dadada;
         cursor: pointer;
         border: 0 solid;
@@ -45,6 +45,10 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
+      }
+
+      .btn-save:hover {
+        background-color: #fff;
       }
 
       .btn-clear {

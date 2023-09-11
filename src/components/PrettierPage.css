@@ -1,0 +1,11 @@
+.portlet {
+    border: 0;
+}
+
+.dragHandle{
+    border-radius: 8px 8px 0px 0px!important;
+}
+
+.clearfix {
+    border-radius: 8px 8px 0px 0px!important;
+}

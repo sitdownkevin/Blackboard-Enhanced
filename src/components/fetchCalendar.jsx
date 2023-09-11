@@ -1,4 +1,4 @@
-
+import { courseInfoCatch } from "./fetchCourse";
 
 
 // fetch Calendar Info
@@ -9,11 +9,16 @@ export async function calendarInfoCatch() {
         todo_items = await setColor(todo_items);
         console.log("fetchCalendar.js Success");
         // console.log(todo_items)
+
+
+
         return todo_items;
     }
-    catch(err) {
+    catch (err) {
         console.log("fetchCalendar.js Error: ", err);
     }
+
+
 };
 
 
@@ -21,7 +26,6 @@ async function get_calendar() {
     const url = '/webapps/calendar/calendarData/selectedCalendarEvents';
     const start_date = new Date();
     const end_date = new Date();
-    start_date.setDate(start_date.getDate() - 400);
     end_date.setDate(end_date.getDate() + 28);
     const params = "?start=" + start_date.getTime() + "&end=" + end_date.getTime() + "&course_id=&mode=personal";
 
@@ -38,23 +42,40 @@ async function get_calendar() {
 
 // 处理json文件: origin_todo_items => todo_items
 async function extractItems(_orig_todo_items) {
+    let course_db;
+    try {
+        course_db = await courseInfoCatch();
+    } catch (err) { console.log }
+
+    // console.log(course_db)
     var _todo_items = [];
     for (let i = 0; i < _orig_todo_items.length; i++) {
-        // const _tmp_ddl = new Date('2023-09-12')
         _todo_items.push({
+            "id": i,
             "course": _orig_todo_items[i]['calendarName'],
             "todoItem": _orig_todo_items[i]['title'],
-            "deadline": _orig_todo_items[i]['end']
-            // "deadline": _tmp_ddl
+            "deadline": _orig_todo_items[i]['end'],
+            "href": course_db[_orig_todo_items[i]['calendarName']] ? course_db[_orig_todo_items[i]['calendarName']]['href'] : '#',
+        });
+    }
+    
+    if (_todo_items.length === 0) {
+        const _tmp_ddl = new Date('2023-09-12')
+        _todo_items.push({
+            "id": 0,
+            "course": 'No DDL Currently',
+            'todoItem': 'HAVE A NICE DAY',
+            // "deadline": _tmp_ddl,
+            "href": '#',
+        })
+    } else {
+        // 按照时间顺序排序
+        _todo_items.sort((a, b) => {
+            return Date.parse(a.deadline) - Date.parse(b.deadline);
         });
     }
 
-
-
-    // 按照时间顺序排序
-    _todo_items.sort((a, b) => {
-        return Date.parse(a.deadline) - Date.parse(b.deadline);
-    });
+    console.log(_todo_items)
     return _todo_items;
 };
 

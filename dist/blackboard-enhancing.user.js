@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       BlackboardBb 增强 | Blackboard Enhanced
 // @namespace  npm/vite-plugin-monkey
-// @version    2.0.2
+// @version    2.0.3
 // @author     sitdownkevin
 // @license    MIT
 // @icon       ./src/assets/favicon.svg
@@ -13,7 +13,7 @@
 // @grant      GM_setValue
 // ==/UserScript==
 
-(e=>{if(typeof GM_addStyle=="function"){GM_addStyle(e);return}const t=document.createElement("style");t.textContent=e,document.head.append(t)})(' .calendar-container{position:fixed;z-index:10000;width:280px;opacity:.8}.calendar-list{width:100%;height:80%;overflow-y:scroll;pointer-events:auto;border-radius:20px;max-height:300px}.calendar-list ::-webkit-scrollbar{width:0;background:transparent}.calendar-item{width:95%;height:auto;margin-top:8px;border-radius:18px;margin-left:5px;pointer-events:auto;display:flex;flex-direction:column;align-items:left;cursor:move;-webkit-user-select:none;user-select:none}.calendar-item .assignment{margin-top:10px;margin-left:12px;margin-right:12px;font-size:17px;font-weight:700;color:#f5f5f6}.calendar-item .course-name{display:inline;margin-top:5px;margin-left:12px;margin-right:8px;font-weight:700;font-size:10px;color:#e0e0ef;cursor:pointer}.calendar-item .count-down{margin-left:12px;margin-bottom:10px;font-weight:700;font-size:22px;color:#e0e0ce}.memo-container{width:100%;height:auto;background-color:#dff0f4}.memo-container .memo-box{width:100%;height:288px;display:flex;flex-direction:column;align-items:center}.memo-container .memo-box .memo-list{border:1px solid #ccc;margin-top:20px;width:calc(100% - 32px);height:100%;overflow-y:scroll;pointer-events:auto}.memo-container .memo-box .memo-list .memo-input{height:300%;width:calc(100% - 10px);background-color:#fff;padding:5px;outline:none}.memo-container .memo-box .btn-box{margin-top:10px;width:100%;height:47.6px;position:relative}.memo-container .memo-box .btn-box .btn-save{background-color:#dadada;border:0 solid;width:46px;height:27.6px;position:absolute;right:70px;display:flex;justify-content:center;align-items:center;cursor:pointer}.memo-container .memo-box .btn-box .btn-save:hover{background-color:#fff}.memo-container .memo-box .btn-box .btn-clear{background-color:#333;border:0 solid;width:46px;height:27.6px;position:absolute;right:16px;display:flex;justify-content:center;align-items:center;color:#fff;cursor:pointer}#currentAttempt_gradeDataPanel{display:""!important}.portlet{border:0}.dragHandle,.clearfix{border-radius:8px 8px 0 0!important} ');
+(e=>{if(typeof GM_addStyle=="function"){GM_addStyle(e);return}const t=document.createElement("style");t.textContent=e,document.head.append(t)})(' .calendar-container{position:fixed;z-index:10000;width:280px;opacity:.8}.calendar-list{width:100%;height:80%;overflow-y:scroll;pointer-events:auto;border-radius:20px;max-height:300px}.calendar-list ::-webkit-scrollbar{width:0;background:transparent}.calendar-item{width:95%;height:auto;margin-top:8px;border-radius:18px;margin-left:5px;pointer-events:auto;display:flex;flex-direction:column;align-items:left;cursor:move;-webkit-user-select:none;user-select:none}.calendar-item .assignment{margin-top:10px;margin-left:12px;margin-right:12px;font-size:17px;font-weight:700;color:#f5f5f6}.calendar-item .course-name{display:inline;margin-top:5px;margin-left:12px;margin-right:8px;font-weight:700;font-size:10px;color:#e0e0ef;cursor:pointer}.calendar-item .count-down{margin-left:12px;margin-bottom:10px;font-weight:700;font-size:22px;color:#e0e0ce}.memo-container{width:100%;height:auto;background-color:#dff0f4}.memo-container .memo-box{width:100%;height:288px;display:flex;flex-direction:column;align-items:center}.memo-container .memo-box .memo-list{border:1px solid #ccc;margin-top:20px;width:calc(100% - 32px);height:100%;overflow-y:scroll;pointer-events:auto}.memo-container .memo-box .memo-list .memo-input{height:300%;width:calc(100% - 10px);background-color:#fff;padding:5px;outline:none}.memo-container .memo-box .btn-box{margin-top:10px;width:100%;height:47.6px;position:relative}.memo-container .memo-box .btn-box .btn-save{background-color:#dadada;border:0 solid;width:46px;height:27.6px;position:absolute;right:70px;display:flex;justify-content:center;align-items:center;cursor:pointer}.memo-container .memo-box .btn-box .btn-save:hover{background-color:#fff}.memo-container .memo-box .btn-box .btn-clear{background-color:#333;border:0 solid;width:46px;height:27.6px;position:absolute;right:16px;display:flex;justify-content:center;align-items:center;color:#fff;cursor:pointer}#currentAttempt_gradeDataPanel{display:""!important} ');
 
 (function (require$$0, require$$0$1) {
   'use strict';
@@ -302,7 +302,7 @@
       ] })
     ] }) }) });
   }
-  let PrettierPage$2 = class PrettierPage {
+  let PrettierPage$1 = class PrettierPage {
     constructor() {
       this.expand;
       this.fb;
@@ -386,7 +386,7 @@
   }
   function GradeAssignment(props) {
     require$$0.useEffect(() => {
-      new PrettierPage$2();
+      new PrettierPage$1();
       const AC = new AutoCalculator();
       const bro = document.querySelector("#currentAttempt_submission");
       const app = document.createElement("div");

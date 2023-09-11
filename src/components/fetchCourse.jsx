@@ -13,6 +13,7 @@ export async function courseInfoCatch() {
     }
 };
 
+
 // 获取包含课程信息的网页
 async function get_course_id() {
     const url = '/webapps/portal/execute/tabs/tabAction?action=refreshAjaxModule&modId=_2_1&tabId=_1_1&tab_tab_group_id=_1_1';

@@ -65,17 +65,17 @@ export function Calendar(props) {
             }, 1000)
 
             return () => { clearInterval(it) }
-        })
+        }, [])
 
         return (
             <div
-                key={todo.course}
+                key={todo.id}
                 className='calendar-item'
                 style={{ backgroundColor: todo['color'] }}
                 onMouseDown={handleMouseDown}
             >
                 <div className='assignment'>{todo['todoItem']}</div>
-                <a className='course-name' href='#'>
+                <a className='course-name' href={todo['href']}>
                     {todo['course']}
                 </a>
                 <div className='count-down'>{cnt}</div>

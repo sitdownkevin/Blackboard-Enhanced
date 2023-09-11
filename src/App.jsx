@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Calendar } from "./components/Calendar";
 import { GradeAssignment } from "./components/GradeAssignment";
+import { PrettierPage } from "./components/PrettierPage";
 
 import {
   GM_setValue,
@@ -13,17 +14,7 @@ import {
 
 
 function menuControl(env, setEnv) {
-  GM_unregisterMenuCommand(env.calendar.display ? '打开DDL' : '关闭DDL')
-  GM_registerMenuCommand(env.calendar.display ? '关闭DDL' : '打开DDL', () => {
-    setEnv({
-      ...env,
-      calendar: {
-        ...env.calendar,
-        display: !env.calendar.display
-      }
-    })
-  })
-  console.log(env.calendar.display ? 'DDL打开' : 'DDL关闭')
+
 }
 
 
@@ -34,7 +25,8 @@ function App() {
         display: true
       },
       assignment: {
-        display: true
+        display: true,
+        memo: ''
       }
     })
   );
@@ -48,7 +40,6 @@ function App() {
       setTodoItems(items);
     }
     fetchTodoItems();
-
   }, [])
 
 
@@ -59,8 +50,9 @@ function App() {
 
 
   return <>
-    { window.location.href.startsWith('https://pibb.scu.edu.cn/webapps/portal') && todoItems && env.calendar.display ? <Calendar todo_items={todoItems} /> : null}
-    { window.location.href.startsWith('https://pibb.scu.edu.cn/webapps/assignment') && env.assignment.display ? <GradeAssignment env={env} setEnv={setEnv} />: null } 
+    {window.location.href.startsWith('https://pibb.scu.edu.cn/webapps/portal') && todoItems && env.calendar.display ? <Calendar todo_items={todoItems} /> : null}
+    {window.location.href.startsWith('https://pibb.scu.edu.cn/webapps/assignment') && env.assignment.display ? <GradeAssignment env={env} setEnv={setEnv} /> : null}
+    <PrettierPage /> 
   </>
 }
 

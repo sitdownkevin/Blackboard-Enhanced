@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Calendar } from "./components/Calendar";
 import { GradeAssignment } from "./components/GradeAssignment";
-import { PrettierPage } from "./components/PrettierPage";
+
 
 import {
   GM_setValue,
@@ -52,7 +52,6 @@ function App() {
   return <>
     {window.location.href.startsWith('https://pibb.scu.edu.cn/webapps/portal') && todoItems && env.calendar.display ? <Calendar todo_items={todoItems} /> : null}
     {window.location.href.startsWith('https://pibb.scu.edu.cn/webapps/assignment') && env.assignment.display ? <GradeAssignment env={env} setEnv={setEnv} /> : null}
-    <PrettierPage /> 
   </>
 }
 

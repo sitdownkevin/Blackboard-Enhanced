@@ -1,10 +1,9 @@
 // ==UserScript==
 // @name       BlackboardBb 增强 | Blackboard Enhanced
 // @namespace  npm/vite-plugin-monkey
-// @version    2.0.3
+// @version    2.0.4
 // @author     sitdownkevin
 // @license    MIT
-// @icon       ./src/assets/favicon.svg
 // @match      https://pibb.scu.edu.cn/*
 // @require    https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js
 // @require    https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js
@@ -302,7 +301,7 @@
       ] })
     ] }) }) });
   }
-  let PrettierPage$1 = class PrettierPage {
+  class PrettierPage {
     constructor() {
       this.expand;
       this.fb;
@@ -322,7 +321,7 @@
       } catch (err) {
       }
     }
-  };
+  }
   class AutoCalculator {
     constructor() {
       this.textArea;
@@ -386,7 +385,7 @@
   }
   function GradeAssignment(props) {
     require$$0.useEffect(() => {
-      new PrettierPage$1();
+      new PrettierPage();
       const AC = new AutoCalculator();
       const bro = document.querySelector("#currentAttempt_submission");
       const app = document.createElement("div");
@@ -401,17 +400,6 @@
         AC.remove();
       };
     }, []);
-    return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, {});
-  }
-  const _favicon = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIG9wYWNpdHk9Ii4zIiBkPSJNMTMgMTNsLTMtMi4yNUw3IDEzVjRINnYxNmgxMlY0aC01eiIgZmlsbD0iY3VycmVudENvbG9yIj48L3BhdGg+PHBhdGggZD0iTTE4IDJINmMtMS4xIDAtMiAuOS0yIDJ2MTZjMCAxLjEuOSAyIDIgMmgxMmMxLjEgMCAyLS45IDItMlY0YzAtMS4xLS45LTItMi0yek05IDRoMnY1bC0xLS43NUw5IDlWNHptOSAxNkg2VjRoMXY5bDMtMi4yNUwxMyAxM1Y0aDV2MTZ6IiBmaWxsPSJjdXJyZW50Q29sb3IiPjwvcGF0aD48L3N2Zz4=";
-  function PrettierPage2() {
-    const checkDOMInterval = setInterval(() => {
-      const favicon = document.querySelector("head > link:nth-child(11)");
-      if (favicon) {
-        favicon.href = _favicon;
-        clearInterval(checkDOMInterval);
-      }
-    }, 100);
     return /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, {});
   }
   function App() {
@@ -440,8 +428,7 @@
     }, [env]);
     return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
       window.location.href.startsWith("https://pibb.scu.edu.cn/webapps/portal") && todoItems && env.calendar.display ? /* @__PURE__ */ jsxRuntimeExports.jsx(Calendar, { todo_items: todoItems }) : null,
-      window.location.href.startsWith("https://pibb.scu.edu.cn/webapps/assignment") && env.assignment.display ? /* @__PURE__ */ jsxRuntimeExports.jsx(GradeAssignment, { env, setEnv }) : null,
-      /* @__PURE__ */ jsxRuntimeExports.jsx(PrettierPage2, {})
+      window.location.href.startsWith("https://pibb.scu.edu.cn/webapps/assignment") && env.assignment.display ? /* @__PURE__ */ jsxRuntimeExports.jsx(GradeAssignment, { env, setEnv }) : null
     ] });
   }
   client.createRoot(
